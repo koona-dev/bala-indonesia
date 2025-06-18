@@ -1,0 +1,19 @@
+{
+  "name": "bala-indonesia",
+  "version": "1.0.0",
+  "description": "Making ecommerce website",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mang Wid",
+  "license": "ISC",
+  "packageManager": "pnpm@10.9.0",
+  "dependencies": {
+    "express": "^5.1.0",
+    "typeorm": "^0.3.24"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
