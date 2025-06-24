@@ -2,18 +2,37 @@
   "name": "bala-indonesia",
   "version": "1.0.0",
   "description": "Making ecommerce website",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Mang Wid",
+  "main": "main.js",
+  "author": "Mang Wid",  
+  "type": "module",
   "license": "ISC",
   "packageManager": "pnpm@10.9.0",
+  "scripts": {
+    "start": "node src/main.js",
+    "dev": "nodemon src/main.js --trace-warnings",    
+    "test": "jest",
+    "clean": "rd /s /q node_modules && pnpm install",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "migration": " npm run typeorm migration:run -- -d ./src/core/common/database/config/db-config.js"
+  },
   "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^2.2.0",
+    "bootstrap": "^5.3.7",
+    "compression": "^1.8.0",
+    "csrf": "^3.1.0",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
     "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "pg": "^8.16.1",
     "typeorm": "^0.3.24"
   },
   "devDependencies": {
+    "jest": "^30.0.2",
     "nodemon": "^3.1.10"
   }
 }
