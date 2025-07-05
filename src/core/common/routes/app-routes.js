@@ -1,14 +1,17 @@
+import { adminProductRouter, shopProductRouter } from "../../modules/products/products-route.js";
 import {
   adminUserRouter,
-  salesUserRouter,
+  shopUserRouter,
 } from "../../modules/users/users-route.js";
 
 function appRoutes(app) {
   // admin routes
-  app.use("/admin", adminUserRouter);
-
-  // user routes
-  app.use("/sales", salesUserRouter);
+  app.use("/admin/users", adminUserRouter);
+  app.use("/admin/products", adminProductRouter);
+  
+  // shop routes
+  app.use("/orders/account", shopUserRouter);
+  app.use(shopProductRouter);
 }
 
 export default appRoutes;

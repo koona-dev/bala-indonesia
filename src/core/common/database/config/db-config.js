@@ -6,7 +6,7 @@ import User from "../../../modules/users/entities/users.js";
 dotenv.config();
 const env = process.env;
 
-const AppDataSource = new DataSource({
+export const AppDataSource = new DataSource({
   type: "postgres",
   host: env.DB_HOST,
   port: env.DB_PORT,
@@ -20,4 +20,4 @@ const AppDataSource = new DataSource({
   migrations: ["src/core/common/database/migrations/*.js"],
 });
 
-export default AppDataSource;
+

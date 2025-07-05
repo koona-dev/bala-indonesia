@@ -1,11 +1,13 @@
-import AppDataSource from "../../common/database/config/db-config.js";
+import { AppDataSource } from "../../common/database/config/db-config.js";
 import UserRole from "../../modules/users/consts/user-role.js";
 import { encryptPassword } from "../helpers/encrypt.js";
 
 const seeder = async () => {
   try {
     const usersRepository = AppDataSource.getRepository("User");
-    const adminRole = await usersRepository.findOne({ name: "admin" });
+    const adminRole = await usersRepository.findOne({
+      where: { name: "admin", role: UserRole.ADMIN },
+    });
 
     if (adminRole) {
       return;
