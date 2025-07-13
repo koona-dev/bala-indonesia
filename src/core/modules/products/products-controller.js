@@ -1,8 +1,27 @@
 import { AppDataSource } from "../../common/database/config/db-config.js";
-import { encryptPassword } from "../../common/helpers/encrypt.js";
 
 class ProductsController {
   #productsRepository = AppDataSource.getRepository("Product");
+
+  renderCreateProduct = (req, res) => {
+    res.render("admin/products/create-product");
+  };
+
+  renderAdminProducts = async (req, res) => {
+    res.render("shared/products", {
+      products: await this.#productsRepository.find(),
+    });
+  };
+  
+  renderSalesProducts = async (req, res) => {
+    res.render("sales/index", {
+      products: await this.#productsRepository.find(),
+    });
+  };
+
+  renderProductDetails = (req, res) => {
+    res.render("shared/product-details");
+  };
 
   getProducts = async (req, res) => {
     const products = await this.#productsRepository.find({
@@ -24,8 +43,6 @@ class ProductsController {
   };
 
   createProduct = async (req, res) => {
-    const hashedPassword = encryptPassword(req.body.password);
-
     try {
       const productcreated = this.#productsRepository.create(req.body);
       const savedProducts = await this.#productsRepository.save(productcreated);

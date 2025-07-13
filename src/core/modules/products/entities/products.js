@@ -45,6 +45,13 @@ const Product = new EntitySchema({
       type: "text",
     },
   },
+  relations: {
+    carts: {
+      type: "one-to-many",
+      target: "Cart",
+      inverseSide: "product",
+    },
+  },
 });
 
 export default Product;

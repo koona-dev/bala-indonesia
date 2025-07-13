@@ -4,11 +4,20 @@ import { encryptPassword } from "../../common/helpers/encrypt.js";
 class UsersController {
   #usersRepository = AppDataSource.getRepository("User");
 
+  renderUsers = (req, res) => {
+    res.render("admin/users/index");
+  };
+
+  renderCreateUser = (req, res) => {
+    res.render("shared/create-user");
+  };
+
   getUsers = async (req, res) => {
     const users = await this.#usersRepository.find({
       where: { ...req.params, ...req.query },
     });
-    res.status(200).json(users);
+
+    return users;
   };
 
   findOneUser = async (req, res) => {
@@ -20,7 +29,7 @@ class UsersController {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.status(200).json(user);
+    return user;
   };
 
   createUser = async (req, res) => {
@@ -33,9 +42,9 @@ class UsersController {
       });
       const savedUsers = await this.#usersRepository.save(usercreated);
 
-      res.status(200).json(savedUsers);
+      return savedUsers[0];
     } catch (error) {
-      res.status(500).json({ message: `Error saving user ${error}` });
+      throw { message: `Error saving user ${error}` };
     }
   };
 

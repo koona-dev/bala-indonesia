@@ -1,17 +1,22 @@
-import { adminProductRouter, shopProductRouter } from "../../modules/products/products-route.js";
 import {
-  adminUserRouter,
-  shopUserRouter,
-} from "../../modules/users/users-route.js";
+  adminProductRouter,
+  shopProductRouter,
+} from "../../modules/products/products-route.js";
+import {
+  adminPurchaseRouter,
+  shopPurchaseRouter,
+} from "../../modules/purchase/purchase-route.js";
+import { adminUserRouter } from "../../modules/users/users-route.js";
 
 function appRoutes(app) {
   // admin routes
   app.use("/admin/users", adminUserRouter);
   app.use("/admin/products", adminProductRouter);
-  
+  app.use("/admin/purchase", adminPurchaseRouter);
+
   // shop routes
-  app.use("/orders/account", shopUserRouter);
   app.use(shopProductRouter);
+  app.use(shopPurchaseRouter);
 }
 
 export default appRoutes;

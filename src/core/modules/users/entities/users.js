@@ -1,5 +1,6 @@
 // users.js
 import { EntitySchema } from "typeorm";
+import UserRole from "../consts/user-role.js";
 
 const User = new EntitySchema({
   name: "User", // Nama entity
@@ -25,12 +26,20 @@ const User = new EntitySchema({
       type: "text",
     },
     role: {
-      type: "text",
-      default: "CUSTOMER", // Default role
+      type: "enum",
+      enum: Object.values(UserRole),
+      default: UserRole.CUSTOMER, // Default role
     },
     address: {
       type: "varchar",
       length: 255,
+    },
+  },
+  relations: {
+    purchase: {
+      type: "one-to-many",
+      target: "Purchase",
+      inverseSide: "user",
     },
   },
 });

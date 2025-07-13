@@ -12,16 +12,21 @@ dotenv.config();
 app.use(express.json());
 app.use(express.urlencoded());
 
-// Import routes
-app.get("/test", (req, res) => {
-  res.send("Hello World!");
-});
+// views engine
+app.set("view engine", "ejs");
+app.set("views", "./ui/views");
 
+// Import routes
 appRoutes(app);
 
-app.use((req, res) => {
-  res.status(404).json({ message: "Route not found" });
-});
+// PASSES STATUS CODE AND ERROR MESSAGE TO DEFAULT ERROR PAGE (./partials/errorPage.ejs)
+// app.use((err, req, res, next) => {
+//   const { statusCode = 500 } = err;
+//   if (!err.message)
+//     err.message =
+//       "Something Went Wrong! Try again or contact your system admin"; // IF NO ERROR MESSAGE IS GENERATED THEN USE DEFAULT ERROR MESSAGE
+//   res.status(statusCode).render("errorPage", { err });
+// });
 
 // Initialize database connection and start the server
 AppDataSource.initialize()
