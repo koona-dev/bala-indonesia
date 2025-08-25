@@ -2,19 +2,20 @@
   "name": "bala-indonesia",
   "version": "1.0.0",
   "description": "Making ecommerce website",
-  "main": "main.js",
+  "main": "index.js",
   "author": "Mang Wid",
   "type": "module",
   "license": "ISC",
   "scripts": {
-    "start": "node src/main.js",
-    "dev": "nodemon src/main.js --trace-warnings",
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js --trace-warnings",
     "test": "jest",
     "clean": "rd /s /q node_modules && pnpm install",
     "migration:run": "typeorm migration:run -d ./src/core/common/database/config/db-config.js",
     "migration:generate": "typeorm migration:generate ./src/core/common/database/migrations -d ./src/core/common/database/config/db-config.js"
   },
   "dependencies": {
+    "axios": "^1.11.0",
     "bcryptjs": "^3.0.2",
     "bootstrap": "^5.3.7",
     "compression": "^1.8.0",
