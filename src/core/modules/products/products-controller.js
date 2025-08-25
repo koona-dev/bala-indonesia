@@ -14,9 +14,7 @@ class ProductsController {
   };
   
   renderSalesProducts = async (req, res) => {
-    res.render("sales/index", {
-      products: await this.#productsRepository.find(),
-    });
+    res.render("sales/index");
   };
 
   renderProductDetails = (req, res) => {
