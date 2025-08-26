@@ -7,12 +7,12 @@
   "type": "module",
   "license": "ISC",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js --trace-warnings",
+    "start": "node index.js",
+    "dev": "nodemon index.js --trace-warnings",
     "test": "jest",
     "clean": "rd /s /q node_modules && pnpm install",
-    "migration:run": "typeorm migration:run -d ./src/core/common/database/config/db-config.js",
-    "migration:generate": "typeorm migration:generate ./src/core/common/database/migrations -d ./src/core/common/database/config/db-config.js"
+    "migration:generate": "typeorm migration:generate ./common/database/migrations/schema --outputJs --pretty -d ./common/database/config/db-config.js",
+    "migration:run": "typeorm migration:run -d ./common/database/config/db-config.js"
   },
   "dependencies": {
     "axios": "^1.11.0",

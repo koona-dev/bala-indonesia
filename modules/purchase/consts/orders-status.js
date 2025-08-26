@@ -1,7 +1,7 @@
-const PurchaseStatus = {
+const OrdersStatus = {
   PENDING: "pending",
   PAID: "paid",
   CANCELED: "canceled",
 };
 
-export default PurchaseStatus;
+export default OrdersStatus;
