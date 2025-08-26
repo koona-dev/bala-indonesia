@@ -29,13 +29,14 @@ const User = new EntitySchema({
       type: "enum",
       enum: Object.values(UserRole),
       default: UserRole.CUSTOMER, // Default role
-    },
-    address: {
-      type: "varchar",
-      length: 255,
-    },
+    },    
   },
   relations: {
+    address: {
+      type: "one-to-one",
+      target: "Address",
+      inverseSide: "user",
+    },    
     carts: {
       type: "one-to-one",
       target: "Cart",

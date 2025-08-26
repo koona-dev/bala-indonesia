@@ -1,7 +1,11 @@
-import { AppDataSource } from "../../common/database/config/db-config.js";
+import { AppDataSource } from "../../../common/database/config/db-config.js";
 
 class CartController {
   #cartRepository = AppDataSource.getRepository("Cart");
+
+  renderCartItems = (req, res) => {
+    res.render("sales/purchase/cart");
+  };
 
   getCarts = async (req, res) => {
     const carts = await this.#cartRepository.find({

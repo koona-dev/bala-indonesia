@@ -1,14 +1,14 @@
-import { AppDataSource } from "../../common/database/config/db-config.js";
+import { AppDataSource } from "../../../common/database/config/db-config.js";
+import RajaOngkirService from "../../../library/raja-ongkir-service.js";
 
 class OrdersController {
-  #ordersRepository = AppDataSource.getRepository("Orders");
+  #addressRepository = AppDataSource.getRepository("Address");
+  #rajaOngkirService = new RajaOngkirService();
+  #shippingRepository = AppDataSource.getRepository("Shipping");
+  #ordersRepository = AppDataSource.getRepository("Order");
 
   renderCreateOrders = (req, res) => {
     res.render("shared/create-orders");
-  };
-
-  renderCartItems = (req, res) => {
-    res.render("sales/purchase/cart");
   };
 
   renderOrders = async (req, res) => {
@@ -21,7 +21,7 @@ class OrdersController {
     res.render("sales/purchase/orders-details");
   };
 
-  getOrderss = async (req, res) => {
+  getOrders = async (req, res) => {
     const orders = await this.#ordersRepository.find({
       where: { ...req.params, ...req.query },
     });
@@ -38,6 +38,39 @@ class OrdersController {
     }
 
     res.status(200).json(orders);
+  };
+
+  selectShipping = async (req, res) => {
+    try {
+      const origin = await this.#addressRepository.findOne({
+        where: { user: { id: userId } }, // FK relasi
+        relations: ["user"], // supaya join User
+      });
+      const destination = await this.#addressRepository.findOne({
+        where: { user: { id: userId } }, // FK relasi
+        relations: ["user"], // supaya join User
+      });
+
+      await this.#rajaOngkirService.calculateCost();
+
+      const shippingRecord = {
+        originId: origin.districtId,
+        destinationId: destination.districtId,
+        weight: req.body.weight,
+        courierCode: req.body.courierCode,
+        courierName: req.body.courierName,
+        service: req.body.service,
+        description: req.body.description,
+        cost: req.body.cost,
+        etd: req.body.etd,
+      };
+
+      const savedShipping = await this.#shippingRepository.save(shippingRecord);
+
+      res.status(200).json(savedShipping);
+    } catch (error) {
+      res.status(500).json({ message: `Error saving orders ${error}` });
+    }
   };
 
   createOrders = async (req, res) => {
@@ -66,9 +99,7 @@ class OrdersController {
 
   deleteOrders = async (req, res) => {
     try {
-      const deletedOrders = await this.#ordersRepository.delete(
-        req.params.id
-      );
+      const deletedOrders = await this.#ordersRepository.delete(req.params.id);
 
       res.status(200).json(deletedOrders);
     } catch (error) {

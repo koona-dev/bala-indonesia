@@ -11,7 +11,16 @@ const Orders = new EntitySchema({
       type: "uuid",
       generated: "uuid",
     },
+    voucher: {
+      type: "varchar",
+      nullable: true,
+    },
+    discount: {
+      type: "numeric",
+      nullable: true,
+    },
     totalPrice: {
+      name: "total_price",
       type: "int",
     },
     status: {
@@ -52,6 +61,16 @@ const Orders = new EntitySchema({
       target: "Cart",
       joinColumn: {
         name: "cart_id", // custom nama kolom FK
+        referencedColumnName: "id", // kolom yang direferensi dari target
+      },
+      cascade: true,
+      onDelete: "CASCADE",
+    },
+    shipping: {
+      type: "one-to-one",
+      target: "Shipping",
+      joinColumn: {
+        name: "shipping_id", // custom nama kolom FK
         referencedColumnName: "id", // kolom yang direferensi dari target
       },
       cascade: true,

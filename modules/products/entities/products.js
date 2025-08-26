@@ -19,7 +19,13 @@ const Product = new EntitySchema({
       length: 100,
     },
     stock: {
-      type: "bigint",
+      type: "int",
+    },
+    unit: {
+      type: "varchar",
+    },
+    weight: {
+      type: "int",
     },
     price: {
       type: "numeric",
@@ -30,18 +36,17 @@ const Product = new EntitySchema({
       type: "text",
     },
     rating: {
-      type: "numeric",
+      type: "varchar",
       precision: 3,
       scale: 2,
       default: 0,
     },
     discount: {
       type: "numeric",
-      precision: 5,
-      scale: 2,
       nullable: true,
     },
     imageSrc: {
+      name: "image_src",
       type: "text",
     },
     // otomatis isi ketika record pertama kali dibuat

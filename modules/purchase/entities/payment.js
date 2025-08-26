@@ -4,7 +4,7 @@ import OrdersStatus from "../consts/orders-status.js";
 
 const Orders = new EntitySchema({
   name: "Orders", // Nama entity
-  tableName: "orderss", // Nama tabel di database
+  tableName: "orders", // Nama tabel di database
   columns: {
     id: {
       primary: true,
