@@ -36,9 +36,14 @@ const User = new EntitySchema({
     },
   },
   relations: {
-    purchase: {
+    carts: {
+      type: "one-to-one",
+      target: "Cart",
+      inverseSide: "user",
+    },    
+    orders: {
       type: "one-to-many",
-      target: "Purchase",
+      target: "Order",
       inverseSide: "user",
     },
   },

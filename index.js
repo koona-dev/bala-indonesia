@@ -3,9 +3,9 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 
-import { AppDataSource } from "./core/common/database/config/db-config.js";
-import seeder from "./core/common/database/seeder.js";
-import appRoutes from "./core/common/routes/app-routes.js";
+import { AppDataSource } from "./common/database/config/db-config.js";
+import seeder from "./common/database/seeder.js";
+import appRoutes from "./common/routes/app-routes.js";
 
 const app = express();
 dotenv.config();
@@ -18,10 +18,10 @@ app.use(express.urlencoded());
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "ui/views"));
+app.set("views", path.join(__dirname, "views"));
 
 // set public folder
-app.use(express.static(path.join(__dirname, "ui/public")));
+app.use(express.static(path.join(__dirname, "public")));
 
 // Import routes
 appRoutes(app);

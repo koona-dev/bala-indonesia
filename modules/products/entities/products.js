@@ -44,11 +44,27 @@ const Product = new EntitySchema({
     imageSrc: {
       type: "text",
     },
+    // otomatis isi ketika record pertama kali dibuat
+    createdAt: {
+      type: "timestamp",
+      createDate: true, // otomatis set ketika INSERT
+    },
+    // otomatis update ketika record diubah
+    updatedAt: {
+      type: "timestamp",
+      updateDate: true, // otomatis set ketika UPDATE
+    },
+    // soft delete, otomatis terisi ketika pakai repository.softRemove()
+    deletedAt: {
+      type: "timestamp",
+      deleteDate: true,
+      nullable: true,
+    },
   },
   relations: {
-    carts: {
+    cartItems: {
       type: "one-to-many",
-      target: "Cart",
+      target: "CartItems",
       inverseSide: "product",
     },
   },

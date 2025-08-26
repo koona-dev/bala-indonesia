@@ -1,33 +1,33 @@
 import express from "express";
-import PurchaseController from "./purchase-controller.js";
+import OrdersController from "./orders-controller.js";
 
 export const adminPurchaseRouter = express.Router({ mergeParams: true });
 export const shopPurchaseRouter = express.Router({ mergeParams: true });
 
-const purchaseController = new PurchaseController();
+const ordersController = new OrdersController();
 
 //  admin router : RENDER
-adminPurchaseRouter.get("/create", purchaseController.renderCreatePurchase);
-adminPurchaseRouter.get("/:id/edit", purchaseController.renderCreatePurchase);
+adminPurchaseRouter.get("/create", ordersController.renderCreateOrders);
+adminPurchaseRouter.get("/:id/edit", ordersController.renderCreateOrders);
 //  admin POST
-adminPurchaseRouter.post("/", purchaseController.createPurchase);
+adminPurchaseRouter.post("/", ordersController.createOrders);
 // DETAILS & UPDATE & DELETE ADMIN
 adminPurchaseRouter
   .route("/")
-  .get(purchaseController.renderPurchase)
-  .patch(purchaseController.updatePurchase)
-  .delete(purchaseController.deletePurchase);
+  .get(ordersController.renderOrders)
+  .patch(ordersController.updateOrders)
+  .delete(ordersController.deleteOrders);
 
 // shop-app router
 // CART API
-shopPurchaseRouter.get("/cart", purchaseController.renderCartItems);
+shopPurchaseRouter.get("/cart", ordersController.renderCartItems);
 // PURCHASE FORM
 shopPurchaseRouter
-  .route("/purchase")
-  .get(purchaseController.renderCreatePurchase)
-  .post(purchaseController.createPurchase);
+  .route("/orders")
+  .get(ordersController.renderCreateOrders)
+  .post(ordersController.createOrders);
 
 shopPurchaseRouter.get(
   "/purchase/:id",
-  purchaseController.renderPurchaseDetails
+  ordersController.renderOrdersDetails
 );
