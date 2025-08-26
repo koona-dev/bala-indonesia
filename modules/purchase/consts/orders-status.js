@@ -1,6 +1,6 @@
 const OrdersStatus = {
   PENDING: "pending",
-  PAID: "paid",
+  SUCCESS: "success",
   CANCELED: "canceled",
 };
 
