@@ -5,7 +5,8 @@
   "scripts": {
     "start": "APP_ENV=production node server.js",
     "dev": "nodemon app.js --trace-warnings",
-    "test": "jest --config jest.config.js"
+    "test": "jest --config jest.config.js",
+    "clean": "rimraf node_modules"
   },
   "dependencies": {
     "ejs": "^3.1.10",

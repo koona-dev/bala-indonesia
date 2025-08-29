@@ -1,6 +1,6 @@
 # compiled output
 /dist
-/node_modules
+**/node_modules
 /build
 
 # Database
@@ -33,10 +33,6 @@ lerna-debug.log*
 
 # IDE - VSCode
 .vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
 
 # dotenv environment variable files
 .env

@@ -1,0 +1,27 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start": "APP_ENV=production node server.js",
+    "dev": "nodemon server.js --trace-warnings",
+    "migration:generate": "typeorm migration:generate ./core/database/migrations/schema --outputJs --pretty -d ./core/database/config/db-config.js",
+    "migration:run": "typeorm migration:run -d ./core/database/config/db-config.js",
+    "clean": "rimraf node_modules"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "compression": "^1.8.0",
+    "connect-flash": "^0.1.1",
+    "csrf": "^3.1.0",
+    "dotenv": "^16.5.0",
+    "express-session": "^1.18.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "method-override": "^3.0.0",
+    "morgan": "^1.10.0",
+    "pg": "^8.16.1",
+    "typeorm": "^0.3.24",
+    "@bala/shared-api": "workspace:*"
+  }
+}
