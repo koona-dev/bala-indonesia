@@ -5,12 +5,13 @@
   "scripts": {
     "start": "APP_ENV=production node server.js",
     "dev": "nodemon app.js --trace-warnings",
-    "test": "jest --config jest.config.js"
+    "test": "jest --config jest.config.js",
+    "clean": "rimraf node_modules"
   },
-  "dependencies": {      
+  "dependencies": {
     "ejs": "^3.1.10",
     "ejs-mate": "^4.0.0",
-    "sanitize-html": "^2.17.0",   
-    "@bala/shared-ui": "workspace:*" 
+    "sanitize-html": "^2.17.0",
+    "@bala/shared-ui": "workspace:*"
   }
 }
