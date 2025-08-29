@@ -11,6 +11,34 @@ importers:
       axios:
         specifier: ^1.11.0
         version: 1.11.0
+      dotenv:
+        specifier: ^16.5.0
+        version: 16.5.0
+      express:
+        specifier: ^5.1.0
+        version: 5.1.0
+    devDependencies:
+      jest:
+        specifier: ^30.0.2
+        version: 30.0.2(@types/node@24.0.4)(ts-node@10.9.2(@types/node@24.0.4)(typescript@5.8.3))
+      nodemon:
+        specifier: ^3.1.10
+        version: 3.1.10
+
+  apps/admin:
+    dependencies:
+      ejs:
+        specifier: ^3.1.10
+        version: 3.1.10
+      ejs-mate:
+        specifier: ^4.0.0
+        version: 4.0.0
+      sanitize-html:
+        specifier: ^2.17.0
+        version: 2.17.0
+
+  apps/backend:
+    dependencies:
       bcryptjs:
         specifier: ^3.0.2
         version: 3.0.2
@@ -26,15 +54,6 @@ importers:
       dotenv:
         specifier: ^16.5.0
         version: 16.5.0
-      ejs:
-        specifier: ^3.1.10
-        version: 3.1.10
-      ejs-mate:
-        specifier: ^4.0.0
-        version: 4.0.0
-      express:
-        specifier: ^5.1.0
-        version: 5.1.0
       express-session:
         specifier: ^1.18.1
         version: 1.18.1
@@ -53,19 +72,23 @@ importers:
       pg:
         specifier: ^8.16.1
         version: 8.16.1
-      sanitize-html:
-        specifier: ^2.17.0
-        version: 2.17.0
       typeorm:
         specifier: ^0.3.24
         version: 0.3.24(pg@8.16.1)(reflect-metadata@0.2.2)(ts-node@10.9.2(@types/node@24.0.4)(typescript@5.8.3))
-    devDependencies:
-      jest:
-        specifier: ^30.0.2
-        version: 30.0.2(@types/node@24.0.4)(ts-node@10.9.2(@types/node@24.0.4)(typescript@5.8.3))
-      nodemon:
+
+  apps/sales:
+    dependencies:
+      ejs:
         specifier: ^3.1.10
         version: 3.1.10
+      ejs-mate:
+        specifier: ^4.0.0
+        version: 4.0.0
+      sanitize-html:
+        specifier: ^2.17.0
+        version: 2.17.0
+
+  packages/shared: {}
 
 packages:
 
