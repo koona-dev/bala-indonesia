@@ -1,0 +1,189 @@
+/* =================================== */
+/*  About Page Styles
+/* =================================== */
+
+@use "variables" as *;
+@use "mixins" as *;
+@use "home" as *;
+
+/*-------- Start about banner Area ------------*/
+
+.about-banner {
+  @extend .p1-gradient-bg;
+}
+
+.about-content {
+  margin-top: 70px;
+  padding: 90px 30px;
+  text-align: center;
+  position: relative;
+  
+  @media (max-width: 767px) {
+    margin-top: 70px;
+  }
+  h1 {
+    font-size: 48px;
+    font-weight: 600;
+  }
+  a {
+    color: $white;
+    font-weight: 300;
+    font-size: 14px;
+  }
+  .material-symbols-rounded {
+    color: $white;
+    font-size: 25px;
+    vertical-align: middle;
+    margin: 0px 10px;
+    font-weight: 500;
+  }
+}
+
+/*-------- End about banner Area ------------*/
+
+/*-------- Start home-about Area ------------*/
+
+.home-about-left {
+  overflow: hidden;
+  aspect-ratio: 1.2;
+}
+
+.home-about-right {
+  @media (max-width: 767px) {
+    margin-top: 30px;
+  }
+  h6 {
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  h1 {
+    margin-bottom: 40px;
+    @media (max-width: 991px) {
+      font-size: 20px;
+    }
+  }
+  p {
+    margin-bottom: 30px;
+    max-width: 445px;
+  }
+  .primary-btn {
+    @extend .p1-gradient-bg;
+    &:hover {
+      box-shadow: 0px 20px 20px 0px rgba(132, 144, 255, 0.3);
+    }
+  }
+}
+
+/*-------- End home-about Area ------------*/
+
+/*--------- Start Vision Mission Area -------------*/
+
+.about-mission-area {
+  .single-mission {
+    text-align: center;
+
+    p {
+      max-width: 318px;
+      margin-top: 30px;
+      margin-bottom: 20px;
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+    }
+
+    span {
+      font-size: 40px;
+      color: $black;
+      @include transition();
+    }
+
+    &:hover {
+      span {
+        @extend .p1-gradient-color;
+      }
+
+      p {
+        color: $primary-color;
+      }
+    }
+  }
+}
+
+.about-strength-area {
+  color: $white;
+  padding: 80px 0;
+  @extend .p1-gradient-bg;
+
+  h1 {
+    color: $white;
+  }
+
+  .strength-wrap {
+    cursor: pointer;
+
+    .active-strength-carousel .owl-item {
+      width: auto !important;
+    }
+
+    .single-strength {
+      text-align: center;
+      opacity: 0.5;
+      @include filter(grayscale, 100%);
+      @include transition();
+
+      h5 {
+        color: $white;
+      }
+
+      span {
+        font-size: 40px;
+        color: $white;
+        margin-bottom: 30px;
+        @include transition();
+      }
+
+      &:hover {
+        @include filter(grayscale, 0%);
+        opacity: 1;
+      }
+    }
+  }
+}
+
+/*--------- End Vision Mission Area -------------*/
+
+/* -------------------------
+   ----- Media Queries ----- 
+   ------------------------- */
+
+@media screen and (max-width: 1020px) {
+  .timeline ul li .content {
+    width: 41vw;
+  }
+  .timeline ul li:nth-child(even) .content {
+    left: calc(-41vw - 45px);
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .timeline ul li {
+    margin-left: 20px;
+
+    .content {
+      width: calc(100vw - 100px);
+
+      h2 {
+        text-align: initial;
+      }
+    }
+
+    &:nth-child(even) .content {
+      left: 45px;
+    }
+
+    &:nth-child(even) .content:before {
+      left: -33px;
+    }
+  }
+}
