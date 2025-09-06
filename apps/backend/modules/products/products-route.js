@@ -1,5 +1,4 @@
 import express from "express";
-
 import ProductsController from "./products-controller.js";
 
 export const productsRouter = express.Router({ mergeParams: true });

@@ -13,7 +13,7 @@ class RajaOngkirService {
       };
 
       const response = await axios.request(config);
-      return JSON.parse(response.data);
+      return response.data;
     } catch (error) {
       console.log(error);
     }
@@ -31,7 +31,7 @@ class RajaOngkirService {
       };
 
       const response = await axios.request(config);
-      return JSON.parse(response.data);
+      return response.data;
     } catch (error) {
       console.log(error);
     }
@@ -49,7 +49,7 @@ class RajaOngkirService {
       };
 
       const response = await axios.request(config);
-      return JSON.parse(response.data);
+      return response.data;
     } catch (error) {
       console.log(error);
     }
@@ -67,7 +67,7 @@ class RajaOngkirService {
       };
 
       const response = await axios.request(config);
-      return JSON.parse(response.data);
+      return response.data;
     } catch (error) {
       console.log(error);
     }
@@ -75,12 +75,11 @@ class RajaOngkirService {
 
   calculateCost = async (originId, destinationId, weight, courierCode) => {
     try {
-      let data = JSON.stringify({
-        origin: originId,
-        destination: destinationId,
-        weight: weight,
-        courier: courierCode,
-      });
+      let formData = new URLSearchParams();
+      formData.append("origin", originId);
+      formData.append("destination", destinationId);
+      formData.append("weight", weight);
+      formData.append("courier", courierCode);
 
       let config = {
         method: "post",
@@ -90,11 +89,11 @@ class RajaOngkirService {
           key: process.env.RAJAONGKIR_API_KEY,
           "Content-Type": "application/x-www-form-urlencoded",
         },
-        data: data,
+        data: formData.toString(),
       };
 
       const response = await axios.request(config);
-      return JSON.parse(response.data);
+      return response.data;
     } catch (error) {
       console.log(error);
     }

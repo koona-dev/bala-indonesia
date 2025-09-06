@@ -11,11 +11,6 @@ export const Cart = new EntitySchema({
       type: "uuid",
       generated: "uuid",
     },
-    status: {
-      type: "enum",
-      enum: Object.values(CartStatus),
-      default: CartStatus.DRAFT,
-    },
     // otomatis isi ketika record pertama kali dibuat
     createdAt: {
       type: "timestamp",
@@ -38,14 +33,14 @@ export const Cart = new EntitySchema({
       cascade: true,
       onDelete: "CASCADE",
     },
-    orders: {
-      type: "one-to-many",
-      target: "Order",
-      inverseSide: "carts",
-    },
     cartItems: {
       type: "one-to-many",
       target: "CartItems",
+      inverseSide: "carts",
+    },
+    orders: {
+      type: "one-to-many",
+      target: "Order",
       inverseSide: "carts",
     },
   },
@@ -62,6 +57,11 @@ export const CartItems = new EntitySchema({
     },
     quantity: { type: "int" },
     price: { type: "int" },
+    status: {
+      type: "enum",
+      enum: Object.values(CartStatus),
+      default: CartStatus.DRAFT,
+    },
     // otomatis isi ketika record pertama kali dibuat
     createdAt: {
       type: "timestamp",

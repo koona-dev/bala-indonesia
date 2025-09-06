@@ -1,5 +1,6 @@
 {
   "name": "@bala/shared-common",
   "version": "1.0.0",
-  "main": "index.js"  
+  "main": "index.js",
+  "type": "module"
 }

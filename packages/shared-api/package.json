@@ -1,7 +1,8 @@
 {
   "name": "@bala/shared-api",
   "version": "1.0.0",
-  "main": "index.js",  
+  "main": "index.js",
+  "type": "module",
   "scripts": {
     "clean": "rimraf node_modules"
   },

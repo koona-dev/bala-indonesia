@@ -5,14 +5,14 @@ class ProductsController {
 
   getProducts = async (req, res) => {
     const products = await this.#productsRepository.find({
-      where: { ...req.params, ...req.query },
+      where: { id: req.query.productId, ...req.query },
     });
     res.status(200).json(products);
   };
 
   findOneProduct = async (req, res) => {
     const product = await this.#productsRepository.findOne({
-      where: { ...req.params, ...req.query },
+      where: { id: req.params.productId, ...req.query },
     });
 
     if (!product) {
@@ -36,7 +36,7 @@ class ProductsController {
   updateProduct = async (req, res) => {
     try {
       const updatedProduct = await this.#productsRepository.update(
-        req.params.id,
+        req.params.productId,
         req.body
       );
 
@@ -49,7 +49,7 @@ class ProductsController {
   deleteProduct = async (req, res) => {
     try {
       const deletedProduct = await this.#productsRepository.delete(
-        req.params.id
+        req.params.productId
       );
 
       res.status(200).json(deletedProduct);

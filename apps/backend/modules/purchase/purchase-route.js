@@ -8,7 +8,8 @@ const ordersController = new OrdersController();
 
 // cart router
 purchaseRouter.get("/carts", cartController.getCarts);
-purchaseRouter.post("/add-cart", cartController.addCart);
+purchaseRouter.post("/cart/create", cartController.createCart);
+purchaseRouter.post("/cart/add-item", cartController.addCartItems);
 purchaseRouter
   .route("/cart/:cartId")
   .get(cartController.findOneCart)
@@ -17,13 +18,12 @@ purchaseRouter
 
 // order router
 purchaseRouter.get("/orders", ordersController.getOrders);
-purchaseRouter.patch("/address/:addressId", ordersController.updateAddress);
-purchaseRouter.post("/select-courier", ordersController.selectShipping);
+purchaseRouter.post("/select-courier", ordersController.calculateShippingCost);
 purchaseRouter.post("/shipping", ordersController.createShipping);
 purchaseRouter.post("/payment", ordersController.createPayment);
 purchaseRouter.post("/orders", ordersController.createOrder);
 purchaseRouter
-  .route("/orders/:orderId")
+  .route("/order/:orderId")
   .get(ordersController.findOneOrder)
   .patch(ordersController.updateOrder)
   .delete(ordersController.deleteOrder);

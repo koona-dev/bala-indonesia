@@ -1,58 +1,103 @@
 import { AppDataSource } from "../../../core/database/config/db-config.js";
 import RajaOngkirService from "../../../services/raja-ongkir-service.js";
+import UserRole from "../../users/consts/user-role.js";
 import CartStatus from "../consts/cart-status.js";
-import ShippingStatus from "../consts/shipping-status.js";
 
 class OrdersController {
-  #addressRepository = AppDataSource.getRepository("Address");
   #rajaOngkirService = new RajaOngkirService();
-  #shippingRepository = AppDataSource.getRepository("Shipping");
+  #usersRepository = AppDataSource.getRepository("User");
+  #addressRepository = AppDataSource.getRepository("Address");
+  #cartItemsRepository = AppDataSource.getRepository("CartItems");
+  #paymentRepository = AppDataSource.getRepository("Shipping");
   #ordersRepository = AppDataSource.getRepository("Order");
 
   getOrders = async (req, res) => {
     const orders = await this.#ordersRepository.find({
-      where: { ...req.params, ...req.query },
+      // select: {
+      //   user: {
+      //     id: true, // only return the FK id
+      //   },
+      //   carts: {
+      //     id: true, // only return the FK id
+      //   },
+      //   shipping: {
+      //     id: true, // only return the FK id
+      //   },
+      // },
+      where: {
+        ...req.query,
+        id: req.query.orderId,
+        user: { id: req.query.id },
+        carts: { id: req.query.cartId },
+        shipping: { id: req.query.shippingId },
+      },
+      relations: ["user", "carts", "shipping"],
     });
     res.status(200).json(orders);
   };
 
   findOneOrder = async (req, res) => {
-    const orders = await this.#ordersRepository.findOne({
-      where: { ...req.params, ...req.query },
+    const order = await this.#ordersRepository.findOne({
+      // select: {
+      //   user: {
+      //     id: true, // only return the FK id
+      //   },
+      //   carts: {
+      //     id: true, // only return the FK id
+      //   },
+      //   shipping: {
+      //     id: true, // only return the FK id
+      //   },
+      // },
+      where: {
+        ...req.query,
+        id: req.params.orderId,
+        user: { id: req.query.id },
+        carts: { id: req.query.cartId },
+        shipping: { id: req.query.shippingId },
+      },
+      relations: ["user", "carts", "shipping"],
     });
 
-    if (!orders) {
-      return res.status(404).json({ message: "Orders not found" });
+    if (!order) {
+      res.status(404).json({ message: "Orders not found" });
     }
 
-    res.status(200).json(orders);
+    res.status(200).json(order);
   };
 
-  selectShipping = async (req, res) => {
+  calculateShippingCost = async (req, res) => {
     try {
-      const shippingRecord = await this.#rajaOngkirService.calculateCost({
-        originId: req.body.originId,
-        destinationId: req.body.destinationId,
-        weight: req.body.weight,
-        courierCode: req.body.courierCode,
+      const admin = await this.#usersRepository.findOne({
+        where: { role: UserRole.ADMIN },
       });
+      const origin = await this.#addressRepository.findOne({
+        where: { user: { id: admin.id } }, // FK relasi
+        relations: ["user"], // supaya join User
+      });
+      const destination = await this.#addressRepository.findOne({
+        where: { user: { id: req.body.userId } }, // FK relasi
+        relations: ["user"], // supaya join User
+      });
+
+      const shippingRecord = await this.#rajaOngkirService.calculateCost(
+        origin.districtId,
+        destination.districtId,
+        req.body.weight,
+        req.body.courierCode
+      );
+
       res.status(200).json(shippingRecord);
     } catch (error) {
-      res.status(500).json({ message: `Error saving orders ${error}` });
+      res
+        .status(500)
+        .json({ message: `Error calculate shipping cost ${error}` });
     }
   };
 
   createShipping = async (req, res) => {
     try {
-      // const origin = await this.#addressRepository.findOne({
-      //   where: {id: req.body.originId },
-      // });
-      // const destination = await this.#addressRepository.findOne({
-      //   where: { user: { id: req.user.id } }, // FK relasi
-      //   relations: ["user"], // supaya join User
-      // });
-
-      const shippingRecord = {
+      const shippingRecord = this.#paymentRepository.create({
         originId: req.body.originId,
         destinationId: req.body.destinationId,
         weight: req.body.weight,
@@ -62,27 +107,18 @@ class OrdersController {
         description: req.body.description,
         cost: req.body.cost,
         etd: req.body.etd,
-      };
-
-      const savedShipping = await this.#shippingRepository.save(shippingRecord);
+      });
+      const savedShipping = await this.#paymentRepository.save(shippingRecord);
 
       res.status(200).json(savedShipping);
     } catch (error) {
-      res.status(500).json({ message: `Error saving orders ${error}` });
+      res.status(500).json({ message: `Error saving shipping ${error}` });
     }
   };
 
   createPayment = async (req, res) => {
     try {
-      // const origin = await this.#addressRepository.findOne({
-      //   where: {id: req.body.originId },
-      // });
-      // const destination = await this.#addressRepository.findOne({
-      //   where: { user: { id: req.user.id } }, // FK relasi
-      //   relations: ["user"], // supaya join User
-      // });
-
-      const shippingRecord = {
+      const paymentData = {
         originId: req.body.originId,
         destinationId: req.body.destinationId,
         weight: req.body.weight,
@@ -94,32 +130,47 @@ class OrdersController {
         etd: req.body.etd,
       };
 
-      const savedShipping = await this.#shippingRepository.save(shippingRecord);
+      const paymentRecord = this.#paymentRepository.create(paymentData);
+      const savedPayment = await this.#paymentRepository.save(paymentRecord);
 
-      res.status(200).json(savedShipping);
+      res.status(200).json(savedPayment);
     } catch (error) {
-      res.status(500).json({ message: `Error saving orders ${error}` });
+      res.status(500).json({ message: `Error saving payment ${error}` });
     }
   };
 
   createOrder = async (req, res) => {
     try {
-      const cart = await cartRepo.findOneBy({
-        user: { id: req.user.id },
-        status: CartStatus.ACTIVE,
-      });
-      const shipping = await shippingRepo.findOneBy({
-        user: { id: req.user.id },
-        status: ShippingStatus.PENDING,
+      const cartItems = await this.#cartItemsRepository.find({
+        where: { carts: { id: req.body.cartsId } },
+        relations: ["carts"],
+        select: {
+          carts: {
+            id: true,
+          },
+        },
       });
 
-      const newOrder = orderRepo.create({
-        totalPrice: req.body.totalPrice,
-        user: { id: req.user.id },
-        cart,
-        shipping,
+      const totalPrice = cartItems.reduce((total, item) => {
+        return total + item.price;
+      }, 0);
+
+      const newOrder = this.#ordersRepository.create({
+        totalPrice: totalPrice,
+        user: { id: req.body.userId },
+        carts: { id: req.body.cartId },
+        shipping: { id: req.body.shippingId },
+        // payment: { id: req.body.paymentId },
       });
+
       const savedOrders = await this.#ordersRepository.save(newOrder);
+      
+      const updatedCarts = await this.#cartItemsRepository.update(
+        { carts: { id: req.body.cartId } },
+        { status: CartStatus.CHECKEDOUT }
+      );
+
+      console.log(updatedCarts);
 
       res.status(200).json(savedOrders);
     } catch (error) {
@@ -127,26 +178,12 @@ class OrdersController {
     }
   };
 
-  updateAddress = async (req, res) => {
-    try {
-      const updatedOrders = await this.#ordersRepository.update(
-        req.params.id,
-        req.body
-      );
-
-      res.status(200).json(updatedOrders);
-    } catch (error) {
-      res.status(404).json({ message: "Orders not found" });
-    }
-  };
-
   updateOrder = async (req, res) => {
     try {
       const updatedOrders = await this.#ordersRepository.update(
-        req.params.id,
-        req.body
+        req.params.orderId,
+        req.body.data
       );
-
       res.status(200).json(updatedOrders);
     } catch (error) {
       res.status(404).json({ message: "Orders not found" });
@@ -155,8 +192,9 @@ class OrdersController {
 
   deleteOrder = async (req, res) => {
     try {
-      const deletedOrders = await this.#ordersRepository.delete(req.params.id);
-
+      const deletedOrders = await this.#ordersRepository.delete(
+        req.params.orderId
+      );
       res.status(200).json(deletedOrders);
     } catch (error) {
       res.status(404).json({ message: "Orders not found" });
